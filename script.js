@@ -40,3 +40,12 @@ rulesBtn.addEventListener("click", () => {
     rulesContainer.style.display = "none";
   }
 });
+let count = 0;
+rollDiceBtn.addEventListener("click", () => {
+  if (count === 3) {
+    alert("Choose a score");
+  } else {
+    rollDice();
+    count++;
+  }
+});
