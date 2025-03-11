@@ -29,6 +29,20 @@ const rollDice = () => {
   });
 };
 
+const updateStats = () => {
+  rollsElement.textContent = rolls;
+  roundElement.textContent = round;
+};
+rollDiceBtn.addEventListener("click", () => {
+  if (rolls === 3) {
+    alert("You have made three rolls this round. Please select a score.");
+  } else {
+    rolls++;
+    rollDice();
+    updateStats();
+  }
+});
+
 rulesBtn.addEventListener("click", () => {
   isModalShowing = !isModalShowing;
 
@@ -38,14 +52,5 @@ rulesBtn.addEventListener("click", () => {
   } else {
     rulesBtn.textContent = "Show rules";
     rulesContainer.style.display = "none";
-  }
-});
-let count = 0;
-rollDiceBtn.addEventListener("click", () => {
-  if (count === 3) {
-    alert("Choose a score");
-  } else {
-    rollDice();
-    count++;
   }
 });
