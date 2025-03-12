@@ -46,7 +46,6 @@ const updateScore = (selectedValue, achieved) => {
 
   scoreHistory.innerHTML += `<li>${achieved} : ${selectedValue}</li>`;
 };
-
 const getHighestDuplicates = (arr) => {
   const counts = {};
 
@@ -79,8 +78,6 @@ const getHighestDuplicates = (arr) => {
   if (highestCount >= 3) {
     updateRadioOption(0, sumOfAllDice);
   }
-
-  updateRadioOption(5, 0);
 };
 
 const detectFullHouse = (arr) => {
@@ -96,8 +93,25 @@ const detectFullHouse = (arr) => {
   if (hasThreeOfAKind && hasPair) {
     updateRadioOption(2, 25);
   }
+};
 
-  updateRadioOption(5, 0);
+const checkForStraights = (arr) => {
+  const sortedNumbersArr = arr.sort((a, b) => a - b);
+  const uniqueNumbersArr = [...new Set(sortedNumbersArr)];
+  const uniqueNumbersStr = uniqueNumbersArr.join("");
+
+  const smallStraightsArr = ["1234", "2345", "3456"];
+  const largeStraightsArr = ["12345", "23456"];
+
+  if (
+    smallStraightsArr.some((straight) => uniqueNumbersStr.includes(straight))
+  ) {
+    updateRadioOption(3, 30);
+  }
+
+  if (largeStraightsArr.includes(uniqueNumbersStr)) {
+    updateRadioOption(4, 40);
+  }
 };
 
 const resetRadioOptions = () => {
@@ -129,23 +143,6 @@ const resetGame = () => {
 
   resetRadioOptions();
 };
-const checkForStraights = (arr) => {
-  const sortedNumbersArr = arr.sort((a, b) => a - b);
-  const uniqueNumbersArr = [...new Set(sortedNumbersArr)];
-  const uniqueNumbersStr = uniqueNumbersArr.join("");
-  const smallStraightsArr = ["1234", "2345", "3456"];
-  const largeStraightsArr = ["12345", "23456"];
-
-  smallStraightsArr.forEach((straight) => {
-    if (uniqueNumbersStr.includes(straight)) {
-      updateRadioOption(3, 30);
-    }
-    if (largeStraightsArr.includes(uniqueNumbersStr)) {
-      updateRadioOption(4, 40);
-    }
-    updateRadioOption(5, 0);
-  });
-};
 
 rollDiceBtn.addEventListener("click", () => {
   if (rolls === 3) {
@@ -158,6 +155,7 @@ rollDiceBtn.addEventListener("click", () => {
     getHighestDuplicates(diceValuesArr);
     detectFullHouse(diceValuesArr);
     checkForStraights(diceValuesArr);
+    updateRadioOption(5, 0);
   }
 });
 rulesBtn.addEventListener("click", () => {
